@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <title data-i18n="title">Aapka Stock</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="description" content="Live preview of your sheet with UI in regional languages." />
+  <style>
+    :root {
+      --radius: 14px;
+      --shadow: 0 16px 32px -4px rgba(0,0,0,0.08);
+      --bg: #f5f7fa;
+      --card: #ffffff;
+      --fg: #1f2d3d;
+      --muted: #64748b;
+      font-family: system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+    }
+    *{box-sizing:border-box;}
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--fg);
+      min-height: 100vh;
+      line-height:1.4;
+    }
+    .container {
+      padding: 1rem 1rem 2rem;
+      max-width: 920px;
+      margin: auto;
+    }
+    .topbar {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .title {
+      margin: 0;
+      font-size: 1.55rem;
+      font-weight: 700;
+      line-height:1.1;
+    }
+    .badge {
+      display: inline-block;
+      background: #e6ecff;
+      color: #3747e0;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: .5px;
+    }
+    .selector {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: nowrap;
+    }
+    label {
+      font-size: 0.85rem;
+    }
+    select {
+      appearance: none;
+      padding: 10px 14px;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      min-width: 140px;
+      cursor: pointer;
+    }
+    .description {
+      margin: 0.75rem 0 1rem;
+      font-size: 0.95rem;
+    }
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 0.75rem 0.75rem 0.75rem 0.75rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1rem;
+    }
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      border-radius: 12px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    th, td {
+      border: 1px solid #e2e8f0;
+      padding: 6px 8px;
+      text-align: left;
+    }
+    th {
+      background: #f1f5fb;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+    .btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: #3b82f6;
+      color: white;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .note {
+      font-size: 0.65rem;
+      color: #555;
+      margin-top: 4px;
+    }
+    @media (max-width: 700px) {
+      .title { font-size: 1.35rem; }
+      iframe { height: 420px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div class="title-wrap">
+        <h1 class="title" data-i18n="heading">Aapka Stock</h1>
+        <div class="badge" data-i18n="subheading">Live Sheet Preview</div>
+      </div>
+      <div class="selector">
+        <label for="lang" data-i18n="lang_label">Language:</label>
+        <select id="lang" aria-label="Language selector">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+          <option value="bn">বাংলা</option>
+          <option value="te">తెలుగు</option>
+          <option value="mr">मराठी</option>
+          <option value="ta">தமிழ்</option>
+          <option value="gu">ગુજરાતી</option>
+          <option value="kn">ಕನ್ನಡ</option>
+          <option value="or">ଓଡ଼ିଆ</option>
+          <option value="pa">ਪੰਜਾਬੀ</option>
+          <option value="ml">മലയാളം</option>
+        </select>
+      </div>
+    </div>
+
+    <p class="description" data-i18n="description">
+      This page shows the sheet; updates appear automatically in the embedded view.
+    </p>
+
+    <div class="card">
+      <!-- embedded published-to-web sheet -->
+      <iframe 
+        id="sheet-embed"
+        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTnvcKAlOG8D_DMeRTbbiuPU9luWerwDM1rinrbaCwCCjemr69UhvPzgqTv5YMfZODkivYX-py9gpl1/pubhtml?widget=true&amp;headers=false"
+        loading="lazy"
+        title="Sheet Preview">
+      </iframe>
+    </div>
+
+    <!-- translated table fallback -->
+    <div class="card">
+      <div class="table-header">
+        <div>
+          <h2 style="margin:0; font-size:1rem;" data-i18n="table_heading">Sheet (translated)</h2>
+          <div class="note" data-i18n="table_sub">Fetched and machine-translated live.</div>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+          <button id="refresh" class="btn"><span data-i18n="refresh">Refresh</span></button>
+        </div>
+      </div>
+      <div id="table-container" style="overflow:auto;">Loading translated sheet...</div>
+      <div class="note" data-i18n="translate_note">
+        Translation is machine-generated; may take a moment and can be rate-limited.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---- configuration (replace placeholders) ----
+    const SPREADSHEET_ID = "your-spreadsheet-id"; // e.g., the long ID from the sheet URL
+    const RANGE = "Sheet1!A1:Z50"; // adjust if your sheet name or range differs
+    const SHEETS_API_KEY = "YOUR_GOOGLE_API_KEY"; // create in Google Cloud and enable Sheets API
+    const TRANSLATE_ENDPOINT = "https://libretranslate.de/translate"; // public LibreTranslate; swap if self-hosted
+
+    // ---- translations for UI ----
+    const translations = {
+      en: {
+        title: "Aapka Stock",
+        heading: "Aapka Stock",
+        subheading: "Live Sheet Preview",
+        lang_label: "Language:",
+        description: "This page shows the sheet; updates appear automatically in the embedded view.",
+        table_heading: "Sheet (translated)",
+        table_sub: "Fetched and machine-translated live.",
+        refresh: "Refresh",
+        translate_note: "Translation is machine-generated; may take a moment and can be rate-limited."
+      },
+      hi: {
+        title: "आपका स्टॉक",
+        heading: "आपका स्टॉक",
+        subheading: "लाइव शीट पूर्वावलोकन",
+        lang_label: "भाषा:",
+        description: "यह पेज शीट दिखाता है; एम्बेड किए गए व्यू में अपडेट अपने आप दिखाई देते हैं।",
+        table_heading: "शीट (अनुवादित)",
+        table_sub: "लाइव रूप से लिया गया और मशीन से अनुवादित।",
+        refresh: "ताज़ा करें",
+        translate_note: "अनुवाद मशीन द्वारा किया गया है; इसमें कुछ समय लग सकता है और यह सीमित हो सकता है।"
+      },
+      bn: {
+        title: "আপনার স্টক",
+        heading: "আপনার স্টক",
+        subheading: "লাইভ শীট প্রিভিউ",
+        lang_label: "ভাষা:",
+        description: "এই পাতা শীট দেখায়; অন্তর্ভুক্ত ভিউ-তে আপডেট স্বয়ংক্রিয়ভাবে প্রতিফলিত হয়।",
+        table_heading: "শীট (অনুবাদিত)",
+        table_sub: "লাইভভাবে ফেচ করা এবং মেশিন ট্রান্সলেটেড।",
+        refresh: "তাজা করুন",
+        translate_note: "অনুবাদ মেশিন-জেনারেটেড; কিছুক্ষণ সময় লাগতে পারে এবং সীমিত হতে পারে।"
+      },
+      te: {
+        title: "మీ స్టాక్",
+        heading: "మీ స్టాక్",
+        subheading: "సజీవ షీట్ ప్రివ్యూ",
+        lang_label: "భాష:",
+        description: "ఈ పేజీ షీట్‌ను చూపిస్తుంది; ఎంబెడ్ చేసిన వీవులో నవీకరణలు ఆటోమేటిక్‌గా కనిపిస్తాయి.",
+        table_heading: "షీట్ (అనువదించబడింది)",
+        table_sub: "జీవంగా ఫెచ్ చేయబడింది మరియు మెషీన్ అనువదించింది.",
+        refresh: "రిఫ్రెష్ చేయండి",
+        translate_note: "అనువాదం మెషీన్ ద్వారా చేయబడింది; కొద్దిగా సమయం పడవచ్చు మరియు పరిమితి ఉండవచ్చు."
+      },
+      mr: {
+        title: "आपला स्टॉक",
+        heading: "आपला स्टॉक",
+        subheading: "झिवंत शीट पूर्वावलोकन",
+        lang_label: "भाषा:",
+        description: "हा पृष्ठ शीट दाखवतो; एम्बेड केलेल्या दृश्यात अद्यतने आपोआप दिसतात.",
+        table_heading: "शीट (अनुवादित)",
+        table_sub: "लाइव्ह फेच केलेले आणि मशीनने अनुवाद केलेले.",
+        refresh: "पुन्हा ताजेतवाने करा",
+        translate_note: "अनुवाद मशीनद्वारे करण्यात आला आहे; थोडा वेळ लागू शकतो आणि मर्यादा असू शकतात."
+      },
+      ta: {
+        title: "உங்கள் ஸ்டாக்",
+        heading: "உங்கள் ஸ்டாக்",
+        subheading: "நேரடி ஷீட் முன்னோட்டம்",
+        lang_label: "மொழி:",
+        description: "இந்த பக்கம் ஷீட்டை காட்டுகிறது; ஏம்பெடு செய்யப்பட்ட காட்சியில் மேம்பாடுகள் தானாக தெரியும்.",
+        table_heading: "ஷீட் (மொழிபெயர்க்கப்பட்டது)",
+        table_sub: "நேரடியாக பெறப்பட்ட மற்றும் மெஷின் மொழிபெயர்க்கப்பட்டது.",
+        refresh: "புதுப்பிக்க",
+        translate_note: "மொழிபெயர்ப்பு மெஷின் உருவாக்கியது; சில நேரம் எடுக்கலாம் மற்றும் வரம்பு இருக்கலாம்."
+      },
+      gu: {
+        title: "તમારું સ્ટોક",
+        heading: "તમારું સ્ટોક",
+        subheading: "લાઇવ શીટ પૂર્વાવલોકન",
+        lang_label: "ભાષા:",
+        description: "આ પેજ શીટ બતાવે છે; એમ્બેડ કરવામાં આવેલા વ્યૂમાં અપડેટ્સ આપમેળે દેખાય છે.",
+        table_heading: "શીટ (અનuvadિત)",
+        table_sub: "લાઇવ રીતે લાઈ ગયેલ અને મશીનથી અનુવાદિત.",
+        refresh: "રીફ્રેશ કરો",
+        translate_note: "અનુવાદ મશીન દ્વારા બનાવાયેલો છે; થોડો સમય લાગી શકે છે અને મર્યાદિત થઈ શકે છે."
+      },
+      kn: {
+        title: "ನಿಮ್ಮ ಸ್ಟಾಕ್",
+        heading: "ನಿಮ್ಮ ಸ್ಟಾಕ್",
+        subheading: "ಜೈವ ಶೀಟ್ ಪೂರ್ವದೃಶ್ಯ",
+        lang_label: "ಭಾಷೆ:",
+        description: "ಈ ಪುಟವು ಶೀಟ್ ಅನ್ನು ತೋರಿಸುತ್ತದೆ; ಎಂಬೆಡ್ ಮಾಡಿದ ವೀಕ್ಷಣೆಯಲ್ಲಿ ನವೀಕರಣಗಳು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಕಾಣಿಸುತ್ತವೆ.",
+        table_heading: "ಶೀಟ್ (ಅನುವಾದಿಸಲಾಗಿದೆ)",
+        table_sub: "ಲೈವ್‌ನಲ್ಲಿ ಫೆಚ್ ಮಾಡಲಾಗಿದೆ ಮತ್ತು ಯಂತ್ರದಿಂದ ಅನುವಾದಿಸಲಾಗಿದೆ.",
+        refresh: "ನವೀಕರಿಸಿ",
+        translate_note: "ಅನುವಾದವನ್ನು ಯಂತ್ರವು ರಚಿಸಿದೆ; ಸ್ವಲ್ಪ ಸಮಯ ತೆಗೆದುಕೊಳ್ಳಬಹುದು ಮತ್ತು ಮಿತಿಯಲ್ಲಿರಬಹುದು."
+      },
+      or: {
+        title: "ଆପଣଙ୍କର ଷ୍ଟକ୍",
+        heading: "ଆପଣଙ୍କର ଷ୍ଟକ୍",
+        subheading: "ସଜୀବ ଶିଟ୍ ପୂର୍ବଦୃଶ୍ୟ",
+        lang_label: "ଭାଷା:",
+        description: "ଏହି ପୃଷ୍ଠା ଶିଟ୍ ଦର୍ଶାଏ; ଏମ୍ବେଡ୍ ହୋଇଥିବା ଭ୍ୟୁରେ ଅଦ୍ୟତନ ଆପୋଆପି ପ୍ରଦର୍ଶିତ ହୁଏ।",
+        table_heading: "ଶିଟ୍ (ଅନୁବାଦିତ)",
+        table_sub: "ସଜୀବ ଭାବରେ ଫେଚ୍ ହୋଇଛି ଏବଂ ମେସିନ୍ ଦ୍ୱାରା ଅନୁବାଦିତ।",
+        refresh: "ତାଜା କରନ୍ତୁ",
+        translate_note: "ଅନୁବାଦ ମେସିନ୍ ଦ୍ୱାରା ତିଆରି; କିଛି ସମୟ ଲାଗିପାରେ ଏବଂ ସୀମିତ ହୋଇପାରେ।"
+      },
+      pa: {
+        title: "ਤੁਹਾਡਾ ਸਟਾਕ",
+        heading: "ਤੁਹਾਡਾ ਸਟਾਕ",
+        subheading: "ਲਾਈਵ ਸੀਟ ਪ੍ਰੀਵਿਊ",
+        lang_label: "ਭਾਸ਼ਾ:",
+        description: "ਇਹ ਪੰਨਾ ਸੀਟ ਦਿਖਾਉਂਦਾ ਹੈ; ਏੰਬੈਡ ਕੀਤੇ ਦ੍ਰਿਸ਼ ਵਿੱਚ ਅਪਡੇਟ ਆਟੋਮੈਟਿਕ ਤੌਰ 'ਤੇ ਦਿਖਾਈ ਦੇ ਰਹੇ ਹਨ।",
+        table_heading: "ਸੀਟ (ਅਨੁਵਾਦਿਤ)",
+        table_sub: "ਲਾਈਵ ਤੌਰ 'ਤੇ ਫੈਚ ਕੀਤੀ ਗਈ ਅਤੇ ਮਸ਼ੀਨ ਦੁਆਰਾ ਅਨੁਵਾਦ ਕੀਤੀ ਗਈ।",
+        refresh: "ਤਾਜ਼ਾ ਕਰੋ",
+        translate_note: "ਅਨੁਵਾਦ ਮਸ਼ੀਨ-ਜਨਰੇਟਿਡ ਹੈ; ਕੁਝ ਸਮਾਂ ਲੱਗ ਸਕਦਾ ਹੈ ਅਤੇ ਸੀਮਿਤ ਹੋ ਸਕਦਾ ਹੈ।"
+      },
+      ml: {
+        title: "നിങ്ങളുടെ സ്റ്റോക്ക്",
+        heading: "നിങ്ങളുടെ സ്റ്റോക്ക്",
+        subheading: "ലൈവ് ഷീറ്റ് മുൻകൂർ ദൃശ്യം",
+        lang_label: "ഭാഷ:",
+        description: "ഈ പേജ് ഷീറ്റ് കാണിക്കുന്നു; എമ്പെഡ് ചെയ്ത ദൃശ്യത്തിൽ അപ്ഡേറ്റുകൾ സ്വയം പ്രതിഫലിക്കുന്നു.",
+        table_heading: "ഷീറ്റ് (തർജ്മ ചെയ്തിരിക്കുന്നു)",
+        table_sub: "ലൈവ് ആയി ഫെച്ച് ചെയ്ത് മെഷീൻ ട്രാൻസ്‌ലേറ്റ് ചെയ്തത്.",
+        refresh: "പരുത്തിക്കുക",
+        translate_note: "തർജ്മാവ് മെഷീൻ നിർമ്മിതമാണ്; കുറച്ച് സമയം എടുക്കാം, പരിധി ഉണ്ടാകാം."
+      }
+    };
+
+    // mapping (LibreTranslate uses same codes for these)
+    const langMap = {
+      en: "en",
+      hi: "hi",
+      bn: "bn",
+      te: "te",
+      mr: "mr",
+      ta: "ta",
+      gu: "gu",
+      kn: "kn",
+      or: "or",
+      pa: "pa",
+      ml: "ml"
+    };
+
+    let originalValues = null;
+
+    async function fetchSheet() {
+      // uses Sheets API; for public sheet you need an API key with Sheets API enabled.
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/1MussZ5RJ6yblFHQ6f-XyLsm6-_RHRBeLV7dr3NA66UU/values/Sheet1?key=AIzaSyDBI8DPGF_i5vQ90U1OQgbbDvQBj1tW3Nw`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("Sheet fetch failed: " + res.statusText);
+      const data = await res.json();
+      return data.values || [];
+    }
+
+    async function translateText(text, targetLang) {
+      if (!text) return "";
+      if (targetLang === "en") return text;
+      try {
+        const resp = await fetch(TRANSLATE_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            q: text,
+            source: "auto",
+            target: targetLang,
+            format: "text"
+          })
+        });
+        const j = await resp.json();
+        return j.translatedText || text;
+      } catch (e) {
+        console.warn("translate error", e);
+        return text;
+      }
+    }
+
+    async function renderTranslated(lang) {
+      const target = langMap[lang] || "en";
+      const container = document.getElementById("table-container");
+      container.textContent = (translations[lang]?.table_sub) || "Translating...";
+      if (!originalValues) {
+        try {
+          originalValues = await fetchSheet();
+        } catch (e) {
+          container.textContent = "Error fetching sheet: " + e.message;
+          return;
+        }
+      }
+      // translate every cell sequentially (could be optimized/batched)
+      const translatedRows = [];
+      for (let i = 0; i < originalValues.length; i++) {
+        const row = originalValues[i];
+        const translatedRow = await Promise.all(
+          row.map(cell => translateText(cell, target))
+        );
+        translatedRows.push(translatedRow);
+      }
+
+      // build table
+      const table = document.createElement("table");
+      // header
+      const headerRow = document.createElement("tr");
+      (translatedRows[0] || []).forEach(h => {
+        const th = document.createElement("th");
+        th.textContent = h;
+        headerRow.appendChild(th);
+      });
+      table.appendChild(headerRow);
+      // body
+      for (let i = 1; i < translatedRows.length; i++) {
+        const tr = document.createElement("tr");
+        translatedRows[i].forEach(c => {
+          const td = document.createElement("td");
+          td.textContent = c;
+          tr.appendChild(td);
+        });
+        table.appendChild(tr);
+      }
+
+      container.innerHTML = "";
+      container.appendChild(table);
+    }
+
+    function applyLang(lang) {
+      const dict = translations[lang] || translations.en;
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (!dict[key]) return;
+        if (el.tagName.toLowerCase() === "title") {
+          document.title = dict[key];
+        }
+        el.textContent = dict[key];
+      });
+      localStorage.setItem("lang", lang);
+      document.getElementById("lang").value = lang;
+      // trigger translated sheet update
+      renderTranslated(lang);
+    }
+
+    function initLang() {
+      const params = new URLSearchParams(window.location.search);
+      let lang = params.get("lang") || localStorage.getItem("lang") || (navigator.language || "en").slice(0,2);
+      if (!Object.keys(langMap).includes(lang)) lang = "en";
+      applyLang(lang);
+    }
+
+    document.getElementById("lang").addEventListener("change", e => {
+      applyLang(e.target.value);
+      const u = new URL(window.location);
+      u.searchParams.set("lang", e.target.value);
+      history.replaceState(null, "", u);
+    });
+
+    document.getElementById("refresh").addEventListener("click", () => {
+      originalValues = null;
+      const lang = document.getElementById("lang").value;
+      renderTranslated(lang);
+    });
+
+    // initialize on load
+    initLang();
+  </script>
+</body>
+</html>
